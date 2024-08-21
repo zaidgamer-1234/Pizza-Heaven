@@ -5,31 +5,34 @@ import CreateOrder from "./pages/CreateOrder";
 import AppLayout from "./AppLayout";
 import Menu, { loader as menuLoader } from "./pages/Menu";
 import { Navigate } from "react-router-dom";
+import Error from "./ui/Error";
 
 const routes = [
   {
     path: "/",
     element: <AppLayout />,
+    errorElement: <Error />,
     children: [
       {
         index: true,
         element: <Navigate replace to="/home" />,
       },
       {
-        path: "home",
+        path: "/home",
         element: <Home />,
       },
       {
-        path: "menu",
+        path: "/menu",
         element: <Menu />,
         loader: menuLoader,
+        errorElement: <Error />,
       },
       {
-        path: "cart",
+        path: "/cart",
         element: <Cart />,
       },
       {
-        path: "neworder",
+        path: "/neworder",
         element: <CreateOrder />,
       },
     ],

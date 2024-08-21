@@ -10,24 +10,25 @@ import {
 } from "@chakra-ui/react";
 import { FaPizzaSlice } from "react-icons/fa";
 import { useNavigate, useNavigation } from "react-router-dom";
+import { setName } from "../Slice/customerSlice";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 function Home() {
+  const [cname, setcName] = useState("");
+  const dispatch = useDispatch();
+
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
   const navigate = useNavigate();
+
   const handleStartOrdering = () => {
+    dispatch(setName(cname));
     navigate("/menu");
   };
   return (
     <>
-      <Box
-        bg="#FFF8DC"
-        px={6}
-        py={20}
-        textAlign="center"
-        color="#8B4513"
-        borderBottom="2px solid #D2691E"
-      >
+      <Box bg="#FFF8DC" px={6} py={20} textAlign="center" color="#8B4513">
         <VStack spacing={6} maxW="800px" mx="auto">
           <Heading as="h2" size="xl" fontFamily="serif" color="#8B4513">
             Welcome to Pizza Heaven!
@@ -41,6 +42,8 @@ function Home() {
               <FaPizzaSlice color="#8B4513" size="1.2em" />
             </InputLeftElement>
             <Input
+              value={cname}
+              onChange={(e) => setcName(e.target.value)}
               type="text"
               placeholder="Start by your name.."
               bg="#8B4513"
@@ -57,16 +60,18 @@ function Home() {
               fontSize="lg"
             />
           </InputGroup>
-          <Button
-            onClick={handleStartOrdering}
-            mt={4}
-            colorScheme="yellow"
-            variant="solid"
-            borderRadius="full"
-            size="lg"
-          >
-            {isLoading ? "Loading..." : "Start Ordering"}
-          </Button>
+          {cname.trim() && (
+            <Button
+              onClick={handleStartOrdering}
+              mt={4}
+              colorScheme="yellow"
+              variant="solid"
+              borderRadius="full"
+              size="lg"
+            >
+              {isLoading ? "Loading..." : "Start Ordering"}
+            </Button>
+          )}
         </VStack>
       </Box>
     </>

@@ -9,19 +9,20 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { FaPizzaSlice } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 const Home = () => {
+  const name = useSelector((state) => state.customer.name);
   return (
     <Box>
       <Box bg="#8B4513" px={6} py={4} color="#FFF8DC">
         <Flex align="center" justify="space-between">
-          <Flex align="center">
+          <Flex align="center" gap={8}>
             <Image
               src="https://img.freepik.com/premium-vector/pizza-logo-design_9845-319.jpg"
               alt="Pizza Logo"
               boxSize="50px"
-              mr={4}
             />
             <Heading
               as="h1"
@@ -56,10 +57,10 @@ const Home = () => {
             />
           </InputGroup>
 
-          <Flex align="center" gap={5}>
+          <Flex align="center" gap={6}>
             <Link
               as={NavLink}
-              to="home"
+              to="/home"
               color="#FFF8DC"
               px={4}
               py={2}
@@ -67,14 +68,13 @@ const Home = () => {
               _hover={{
                 textDecoration: "none",
                 color: "#FFD700",
-                bg: "#84593b",
+                bg: "#c2a28c",
               }}
               _activeLink={{
                 color: "#FFD700",
                 fontWeight: "bold",
                 bg: "#8B4513",
               }}
-              mr={4}
             >
               Home
             </Link>
@@ -89,14 +89,13 @@ const Home = () => {
               _hover={{
                 textDecoration: "none",
                 color: "#FFD700",
-                bg: "#84593b",
+                bg: "#c2a28c",
               }}
               _activeLink={{
                 color: "#FFD700",
                 fontWeight: "bold",
                 bg: "#8B4513",
               }}
-              mr={4}
             >
               Cart
             </Link>
@@ -111,7 +110,7 @@ const Home = () => {
               borderRadius="md"
               _hover={{
                 color: "#FFD700",
-                bg: "#84593b",
+                bg: "#c2a28c",
                 textDecoration: "none",
               }}
               _activeLink={{
@@ -123,6 +122,22 @@ const Home = () => {
               Order
             </Link>
           </Flex>
+
+          {/* Customer Name */}
+          <Box>
+            <strong
+              style={{
+                fontSize: "1.5em",
+                color: "#FFD700",
+                backgroundColor: "#8B4513",
+                padding: "8px 16px",
+                borderRadius: "12px",
+                fontFamily: "serif",
+              }}
+            >
+              {name}
+            </strong>
+          </Box>
         </Flex>
       </Box>
     </Box>
