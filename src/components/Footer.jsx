@@ -1,46 +1,34 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Text,
-  Link,
-  Stack,
-  Divider,
-} from "@chakra-ui/react";
-import { FaInstagram, FaFacebook, FaTwitter, FaEnvelope } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
-  return (
-    <Box bg="#8B4513" color="#FFF8DC" py={12} px={4}>
-      <Divider borderColor="#D2691E" mb={10} />
-      <Stack spacing={4} textAlign="center">
-        <Heading as="h2" size="md" fontFamily="serif" color="#FFD700">
-          Pizza Heaven
-        </Heading>
-        <Stack spacing={4} textAlign="center">
-          <Text fontSize="sm" color="#FFF8DC">
-            Follow us on social media:
-          </Text>
-          <Flex justify="center" spacing={4} gap={5}>
-            <Link href="https://www.instagram.com/pizzaheaven" isExternal>
-              <FaInstagram size="1.5em" color="#FFF8DC" />
-            </Link>
-            <Link href="https://www.facebook.com/pizzaheaven" isExternal>
-              <FaFacebook size="1.5em" color="#FFF8DC" />
-            </Link>
-            <Link href="https://twitter.com/pizzaheaven" isExternal>
-              <FaTwitter size="1.5em" color="#FFF8DC" />
-            </Link>
+  const totalQuantity = useSelector((state) =>
+    state.cart.cart.reduce((sum, item) => sum + item.quantity, 0)
+  );
+  const totalPrice = useSelector((state) =>
+    state.cart.cart.reduce((sum, item) => sum + item.totalPrice, 0)
+  );
+  if (!totalQuantity) return;
 
-            <Link href="mailto:contact@pizzaheaven.com" isExternal>
-              <FaEnvelope size="1.5em" color="#FFF8DC" />
-            </Link>
-          </Flex>
-        </Stack>
-        <Text fontSize="sm" color="#FFF8DC">
-          &copy; {new Date().getFullYear()} Pizza Heaven. All rights reserved.
-        </Text>
-      </Stack>
+  return (
+    <Box
+      bg="#2D2D2D"
+      color="#fff"
+      p={1}
+      position="fixed"
+      bottom="0"
+      width="100%"
+    >
+      <Flex align="center" gap={6}>
+        <Flex align="center" gap={4}>
+          <Text fontSize="lg"> {totalQuantity} PIZZAS</Text>
+          <Text fontSize="lg">Total Price: £{totalPrice.toFixed(2)}</Text>
+        </Flex>
+      </Flex>
+      <Flex justify="flex-end" position="relative" bottom={6}>
+        <NavLink to="/cart">OPEN CART &rarr;</NavLink>
+      </Flex>
     </Box>
   );
 };

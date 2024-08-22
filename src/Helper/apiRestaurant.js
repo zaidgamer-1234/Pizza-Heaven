@@ -5,7 +5,6 @@ const API_URL = "https://react-fast-pizza-api.onrender.com/api";
 export async function getMenu() {
   try {
     const res = await axios.get(`${API_URL}/menu`);
-    console.log(res.data.data);
     return res.data.data;
   } catch (error) {
     throw new Error(
@@ -27,13 +26,24 @@ export async function getOrder(id) {
 
 export async function createOrder(newOrder) {
   try {
-    const res = await axios.post(`${API_URL}/order`, newOrder, {
+    const response = await axios.post(`${API_URL}/order`, newOrder, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-    return res.data.data;
+
+    const data = response.data.data;
+
+    return data;
   } catch (error) {
-    throw new Error("Failed creating your order", error.message);
+    if (error.response) {
+      console.error("API error details:", error.response.data);
+      throw new Error(
+        error.response.data.message || "Failed creating your order"
+      );
+    } else {
+      console.error("Network or other error:", error.message);
+      throw new Error(error.message);
+    }
   }
 }

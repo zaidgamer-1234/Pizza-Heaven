@@ -10,17 +10,40 @@ import {
   Heading,
   Link,
   Flex,
+  Text,
 } from "@chakra-ui/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { createOrder } from "../Helper/apiRestaurant";
+import { clearCart } from "../Slice/cartListSlice";
 
 function CreateOrder() {
-  const { register, handleSubmit, formState } = useForm();
-  const { errors } = formState;
+  const onSubmit = async (data) => {
+    const orderData = {
+      ...data,
+      cart,
+    };
+    console.log("Submitting order data:", orderData);
 
-  const onSubmit = (data) => {
-    console.log(data);
+    try {
+      const newOrder = await createOrder(orderData);
+      console.log("New order,", newOrder);
+      dispatch(clearCart());
+      navigate(`/order/${newOrder.id}`, { state: { order: newOrder } });
+    } catch (error) {
+      console.error("Failed to create order:", error.message);
+    }
   };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const customer = useSelector((state) => state.customer.name);
+  const cart = useSelector((state) => state.cart.cart);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <Box
@@ -29,7 +52,7 @@ function CreateOrder() {
       borderRadius="md"
       maxW="400px"
       mx="auto"
-      mt={3}
+      mt={20}
       mb={3}
       boxShadow="lg"
     >
@@ -51,96 +74,106 @@ function CreateOrder() {
         </Link>
       </Flex>
 
-      <Heading
-        as="h2"
-        size="lg"
-        mb={6}
-        textAlign="center"
-        color="#8B4513"
-        fontFamily="serif"
-      >
-        Ready to order !!
-      </Heading>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <VStack spacing={4}>
-          <FormControl isInvalid={errors.username}>
-            <FormLabel htmlFor="username" color="#8B4513">
-              Username
-            </FormLabel>
-            <Input
-              id="username"
-              placeholder="Enter your username"
-              {...register("username", { required: "Username is required" })}
-              borderColor="#D2691E"
-              _focus={{
-                borderColor: "#FFD700",
-                boxShadow: "0 0 0 1px #FFD700",
-              }}
-            />
-            <FormErrorMessage>
-              {errors.username && errors.username.message}
-            </FormErrorMessage>
-          </FormControl>
-
-          <FormControl isInvalid={errors.email}>
-            <FormLabel htmlFor="email" color="#8B4513">
-              Mobile number
-            </FormLabel>
-            <Input
-              id="mobile"
-              type="tel"
-              placeholder="Enter your mobile number"
-              {...register("mobile", {
-                required: "Mobile number is required",
-                pattern: {
-                  value: /^\d{11}$/,
-                  message: "Invalid mobile number",
-                },
-              })}
-              borderColor="#D2691E"
-              _focus={{
-                borderColor: "#FFD700",
-                boxShadow: "0 0 0 1px #FFD700",
-              }}
-            />
-
-            <FormErrorMessage>
-              {errors.email && errors.email.message}
-            </FormErrorMessage>
-          </FormControl>
-
-          <FormControl isInvalid={errors.geolocation}>
-            <FormLabel htmlFor="geolocation" color="#8B4513">
-              Geolocation
-            </FormLabel>
-            <Input
-              id="geolocation"
-              placeholder="Enter your location"
-              {...register("geolocation", {
-                required: "Geolocation is required",
-              })}
-              borderColor="#D2691E"
-              _focus={{
-                borderColor: "#FFD700",
-                boxShadow: "0 0 0 1px #FFD700",
-              }}
-            />
-            <FormErrorMessage>
-              {errors.geolocation && errors.geolocation.message}
-            </FormErrorMessage>
-          </FormControl>
-
-          <Button
-            type="submit"
-            colorScheme="orange"
-            width="full"
-            bg="#D2691E"
-            _hover={{ bg: "#FFD700" }}
+      {cart.length > 0 ? (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Heading
+            as="h2"
+            size="lg"
+            mb={6}
+            textAlign="center"
+            color="#8B4513"
+            fontFamily="serif"
           >
-            Submit Order
-          </Button>
-        </VStack>
-      </form>
+            Ready to order !!
+          </Heading>
+          <VStack spacing={4}>
+            <FormControl isInvalid={errors.customer}>
+              <FormLabel htmlFor="customer" color="#8B4513">
+                Customer
+              </FormLabel>
+              <Input
+                id="customer"
+                placeholder="Enter your name"
+                defaultValue={customer}
+                {...register("customer", {
+                  required: "Customer name is required",
+                })}
+                borderColor="#D2691E"
+                _focus={{
+                  borderColor: "#FFD700",
+                  boxShadow: "0 0 0 1px #FFD700",
+                }}
+              />
+              <FormErrorMessage>
+                {errors.customer && errors.customer.message}
+              </FormErrorMessage>
+            </FormControl>
+
+            <FormControl isInvalid={errors.phone}>
+              <FormLabel htmlFor="phone" color="#8B4513">
+                Phone number
+              </FormLabel>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="Enter your phone number"
+                {...register("phone", {
+                  required: "Phone number is required",
+                  pattern: {
+                    value: /^[0-9]{11}$/,
+                    message:
+                      "Phone number must be exactly 11 digits or must be in digits",
+                  },
+                })}
+                borderColor="#D2691E"
+                _focus={{
+                  borderColor: "#FFD700",
+                  boxShadow: "0 0 0 1px #FFD700",
+                }}
+              />
+              <FormErrorMessage>
+                {errors.phone && errors.phone.message}
+              </FormErrorMessage>
+            </FormControl>
+
+            <FormControl isInvalid={errors.address}>
+              <FormLabel htmlFor="address" color="#8B4513">
+                Address
+              </FormLabel>
+              <Input
+                id="address"
+                placeholder="Enter your address"
+                {...register("address", {
+                  required: "Address is required",
+                })}
+                borderColor="#D2691E"
+                _focus={{
+                  borderColor: "#FFD700",
+                  boxShadow: "0 0 0 1px #FFD700",
+                }}
+              />
+              <FormErrorMessage>
+                {errors.address && errors.address.message}
+              </FormErrorMessage>
+            </FormControl>
+
+            <Button
+              type="submit"
+              colorScheme="orange"
+              width="full"
+              bg="#D2691E"
+              _hover={{ bg: "#FFD700" }}
+            >
+              Submit Order
+            </Button>
+          </VStack>
+        </form>
+      ) : (
+        <Text textAlign="center" color="#8B4513">
+          Your cart is empty. Please add items to the cart before placing an
+          order.
+        </Text>
+      )}
     </Box>
   );
 }

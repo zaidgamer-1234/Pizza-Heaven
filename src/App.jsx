@@ -1,11 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
-import Cart from "./pages/cart";
+import Cart from "./pages/Cart";
 import CreateOrder from "./pages/CreateOrder";
 import AppLayout from "./AppLayout";
 import Menu, { loader as menuLoader } from "./pages/Menu";
 import { Navigate } from "react-router-dom";
 import Error from "./ui/Error";
+import OrderDetails from "./pages/OrderDetails";
 
 const routes = [
   {
@@ -34,6 +35,10 @@ const routes = [
       {
         path: "/neworder",
         element: <CreateOrder />,
+      },
+      {
+        path: "/order/:id",
+        element: <OrderDetails />,
       },
     ],
   },
