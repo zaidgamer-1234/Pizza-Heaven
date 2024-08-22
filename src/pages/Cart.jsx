@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { FaTrash } from "react-icons/fa";
 import { removeItem, clearCart } from "../Slice/cartListSlice";
+import { formatCurrency } from "../Helper/helpers";
 
 function Cart() {
   const name = useSelector((state) => state.customer.name);
@@ -71,13 +72,19 @@ function Cart() {
               position="relative"
             >
               <Flex justify="space-between" align="center">
-                <Text fontWeight="bold" color="#8B4513">
+                <Text fontWeight="bold" color="#8B4513" fontSize="20px">
                   {item.name}
                 </Text>
-                <Flex direction="column" align="flex-end" gap={1}>
-                  <Text color="#D2691E" textAlign="center">
-                    ${item.unitPrice.toFixed(2)} x {item.quantity} = $
-                    {(item.unitPrice * item.quantity).toFixed(2)}
+                <Flex align="flex-end" gap={6}>
+                  <Text
+                    position="relative"
+                    color="#D2691E"
+                    textAlign="center"
+                    fontSize="20px"
+                    bottom={1}
+                  >
+                    {item.unitPrice} x {item.quantity} =
+                    {formatCurrency(item.unitPrice * item.quantity)}
                   </Text>
                   <IconButton
                     icon={<FaTrash />}

@@ -24,11 +24,9 @@ function CreateOrder() {
       ...data,
       cart,
     };
-    console.log("Submitting order data:", orderData);
 
     try {
       const newOrder = await createOrder(orderData);
-      console.log("New order,", newOrder);
       dispatch(clearCart());
       navigate(`/order/${newOrder.id}`, { state: { order: newOrder } });
     } catch (error) {

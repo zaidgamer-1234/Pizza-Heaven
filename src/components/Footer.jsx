@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
+import { formatCurrency } from "../Helper/helpers";
 
 const Footer = () => {
   const totalQuantity = useSelector((state) =>
@@ -23,7 +24,7 @@ const Footer = () => {
       <Flex align="center" gap={6}>
         <Flex align="center" gap={4}>
           <Text fontSize="lg"> {totalQuantity} PIZZAS</Text>
-          <Text fontSize="lg">Total Price: £{totalPrice.toFixed(2)}</Text>
+          <Text fontSize="lg">Total Price: {formatCurrency(totalPrice)}</Text>
         </Flex>
       </Flex>
       <Flex justify="flex-end" position="relative" bottom={6}>

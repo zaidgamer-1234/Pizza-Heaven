@@ -64,6 +64,7 @@ const Home = () => {
               color="#FFF8DC"
               px={4}
               py={2}
+              fontSize="lg"
               borderRadius="md"
               _hover={{
                 textDecoration: "none",
@@ -85,6 +86,7 @@ const Home = () => {
               color="#FFF8DC"
               px={4}
               py={2}
+              fontSize="lg"
               borderRadius="md"
               _hover={{
                 textDecoration: "none",
