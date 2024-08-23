@@ -15,7 +15,7 @@ const Home = () => {
               src="https://img.freepik.com/premium-vector/pizza-logo-design_9845-319.jpg"
               alt="Pizza Logo"
               boxSize="60px"
-              border="3px solid #000"
+              border="1px solid #000"
               borderRadius="full"
             />
             <Heading

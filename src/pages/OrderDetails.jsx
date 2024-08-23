@@ -17,7 +17,7 @@ import { formatCurrency, formatDate, calcMinutesLeft } from "../Helper/helpers";
 function OrderDetails() {
   const { id } = useParams();
   const location = useLocation();
-  const order = location.state.order;
+  const order = location.state?.order;
   console.log(order);
 
   if (!order) {

@@ -1,12 +1,12 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
-import CreateOrder from "./pages/CreateOrder";
-import AppLayout from "./AppLayout";
-import Menu, { loader as menuLoader } from "./pages/Menu";
-import { Navigate } from "react-router-dom";
 import Error from "./ui/Error";
+import AppLayout from "./AppLayout";
+import CreateOrder from "./pages/CreateOrder";
 import OrderDetails from "./pages/OrderDetails";
+import { Navigate } from "react-router-dom";
+import Menu, { loader as menuLoader } from "./pages/Menu";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const routes = [
   {
