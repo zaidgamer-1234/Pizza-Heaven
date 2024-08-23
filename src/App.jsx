@@ -36,11 +36,11 @@ const routes = [
         path: "/neworder",
         element: <CreateOrder />,
       },
-      {
-        path: "/order/:id",
-        element: <OrderDetails />,
-      },
     ],
+  },
+  {
+    path: "/order/:id",
+    element: <OrderDetails />,
   },
 ];
 

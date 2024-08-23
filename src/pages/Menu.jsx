@@ -12,6 +12,7 @@ import {
 import { getMenu } from "../Helper/apiRestaurant";
 import { useDispatch } from "react-redux";
 import { addItem } from "../Slice/cartListSlice";
+import { formatCurrency } from "../Helper/helpers";
 
 function Menu() {
   const data = useLoaderData();
@@ -78,7 +79,7 @@ function Menu() {
                   {item.name || "Default name"}
                 </Heading>
                 <Text color="#D2691E">
-                  Unit Price: <strong>${item.unitPrice}</strong>
+                  Unit Price: <strong>{formatCurrency(item.unitPrice)}</strong>
                 </Text>
                 <Text color="#8B4513">
                   Ingredients: {item.ingredients.join(", ")}

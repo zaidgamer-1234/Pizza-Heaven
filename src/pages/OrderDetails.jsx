@@ -4,7 +4,6 @@ import {
   VStack,
   Heading,
   Divider,
-  Badge,
   Icon,
   Tag,
   TagLabel,
@@ -12,7 +11,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { FaMapMarkerAlt, FaPhoneAlt, FaClock } from "react-icons/fa";
-import { useLocation, useParams } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import { formatCurrency, formatDate, calcMinutesLeft } from "../Helper/helpers";
 
 function OrderDetails() {
@@ -112,6 +111,32 @@ function OrderDetails() {
           </Tag>
         )}
       </VStack>
+      <Box
+        as={NavLink}
+        to="/home"
+        display="inline-flex"
+        alignItems="center"
+        color="brown"
+        fontWeight="bold"
+        fontSize="lg"
+        textDecoration="none"
+        _hover={{
+          color: "orange.600",
+          textDecoration: "underline",
+        }}
+        _activeLink={{
+          color: "orange.800",
+          textDecoration: "underline",
+        }}
+        px={3}
+        py={2}
+        borderRadius="md"
+        _focus={{
+          boxShadow: "outline",
+        }}
+      >
+        &larr; Home
+      </Box>
     </Box>
   );
 }

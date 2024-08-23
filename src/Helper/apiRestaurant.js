@@ -16,12 +16,11 @@ export async function getMenu() {
 }
 
 export async function getOrder(id) {
-  try {
-    const res = await axios.get(`${API_URL}/order/${id}`);
-    return res.data.data;
-  } catch (error) {
-    throw new Error(`Couldn't find order #${id}`, error.message);
-  }
+  const res = await fetch(`${API_URL}/order/${id}`);
+  if (!res.ok) throw Error(`Couldn't find order #${id}`);
+
+  const { data } = await res.json();
+  return data;
 }
 
 export async function createOrder(newOrder) {

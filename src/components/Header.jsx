@@ -1,28 +1,22 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Image,
-  Link,
-} from "@chakra-ui/react";
-import { FaPizzaSlice } from "react-icons/fa";
+import { Box, Flex, Heading, Image, Link } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import SearchOrder from "../pages/SearchOrder";
 
 const Home = () => {
   const name = useSelector((state) => state.customer.name);
+
   return (
     <Box>
       <Box bg="#8B4513" px={6} py={4} color="#FFF8DC">
-        <Flex align="center" justify="space-between">
-          <Flex align="center" gap={8}>
+        <Flex align="center" justify="space-between" wrap="wrap">
+          <Flex align="center" gap={8} flex="1">
             <Image
               src="https://img.freepik.com/premium-vector/pizza-logo-design_9845-319.jpg"
               alt="Pizza Logo"
-              boxSize="50px"
+              boxSize="60px"
+              border="3px solid #000"
+              borderRadius="full"
             />
             <Heading
               as="h1"
@@ -34,48 +28,29 @@ const Home = () => {
               Pizza Heaven
             </Heading>
           </Flex>
+          <SearchOrder />
 
-          <InputGroup maxW="500px">
-            <InputLeftElement pointerEvents="none">
-              <FaPizzaSlice color="#22211f" size="1.5em" />
-            </InputLeftElement>
-            <Input
-              type="text"
-              placeholder="Search order #"
-              bg="#FFF8DC"
-              color="#8B4513"
-              _placeholder={{ color: "#8B4513" }}
-              borderRadius="full"
-              border="2px solid #D2691E"
-              _focus={{
-                borderColor: "#FFD700",
-                boxShadow: "0 0 0 1px #FFD700",
-              }}
-              px={6}
-              py={4}
-              fontSize="lg"
-            />
-          </InputGroup>
-
-          <Flex align="center" gap={6}>
+          <Flex align="center" gap={6} flex="1" justify="center" wrap="wrap">
             <Link
               as={NavLink}
               to="/home"
               color="#FFF8DC"
-              px={4}
-              py={2}
+              px={2}
+              py={1}
               fontSize="lg"
+              fontWeight="bold"
               borderRadius="md"
               _hover={{
                 textDecoration: "none",
-                color: "#FFD700",
-                bg: "#c2a28c",
+                color: "#8B4513",
+                bg: "#FFD700",
+                transform: "scale(1.05)",
               }}
               _activeLink={{
-                color: "#FFD700",
-                fontWeight: "bold",
-                bg: "#8B4513",
+                color: "#8B4513",
+                bg: "#FFD700",
               }}
+              transition="all 0.3s ease"
             >
               Home
             </Link>
@@ -84,20 +59,22 @@ const Home = () => {
               as={NavLink}
               to="/cart"
               color="#FFF8DC"
-              px={4}
-              py={2}
+              px={2}
+              py={1}
               fontSize="lg"
+              fontWeight="bold"
               borderRadius="md"
               _hover={{
                 textDecoration: "none",
-                color: "#FFD700",
-                bg: "#c2a28c",
+                color: "#8B4513",
+                bg: "#FFD700",
+                transform: "scale(1.05)",
               }}
               _activeLink={{
-                color: "#FFD700",
-                fontWeight: "bold",
-                bg: "#8B4513",
+                color: "#8B4513",
+                bg: "#FFD700",
               }}
+              transition="all 0.3s ease"
             >
               Cart
             </Link>
@@ -105,27 +82,28 @@ const Home = () => {
             <Link
               as={NavLink}
               to="/neworder"
-              fontSize="lg"
               color="#FFF8DC"
-              px={4}
-              py={2}
+              px={2}
+              py={1}
+              fontSize="lg"
+              fontWeight="bold"
               borderRadius="md"
               _hover={{
-                color: "#FFD700",
-                bg: "#c2a28c",
+                color: "#8B4513",
+                bg: "#FFD700",
                 textDecoration: "none",
+                transform: "scale(1.05)",
               }}
               _activeLink={{
-                color: "#FFD700",
-                fontWeight: "bold",
-                bg: "#8B4513",
+                color: "#8B4513",
+                bg: "#FFD700",
               }}
+              transition="all 0.3s ease"
             >
               Order
             </Link>
           </Flex>
 
-          {/* Customer Name */}
           <Box>
             <strong
               style={{
@@ -135,6 +113,9 @@ const Home = () => {
                 padding: "8px 16px",
                 borderRadius: "12px",
                 fontFamily: "serif",
+                marginLeft: "auto",
+                textAlign: "center",
+                display: "inline-block",
               }}
             >
               {name}

@@ -17,8 +17,10 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { createOrder } from "../Helper/apiRestaurant";
 import { clearCart } from "../Slice/cartListSlice";
+import { useState } from "react";
 
 function CreateOrder() {
+  const [isSubmit, setIsSubmit] = useState(false);
   const onSubmit = async (data) => {
     const orderData = {
       ...data,
@@ -26,11 +28,15 @@ function CreateOrder() {
     };
 
     try {
+      setIsSubmit(true);
       const newOrder = await createOrder(orderData);
+      setIsSubmit(false);
       dispatch(clearCart());
       navigate(`/order/${newOrder.id}`, { state: { order: newOrder } });
     } catch (error) {
       console.error("Failed to create order:", error.message);
+    } finally {
+      setIsSubmit(false);
     }
   };
   const {
@@ -162,7 +168,7 @@ function CreateOrder() {
               bg="#D2691E"
               _hover={{ bg: "#FFD700" }}
             >
-              Submit Order
+              {isSubmit ? "Submitting" : "Submit Order"}
             </Button>
           </VStack>
         </form>
