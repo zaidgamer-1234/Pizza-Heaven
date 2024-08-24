@@ -15,14 +15,19 @@ export async function getMenu() {
   }
 }
 
-export async function getOrder(id) {
-  console.log("Answer is: ", id);
-  const res = await fetch(`${API_URL}/order/${id}`);
-  if (!res.ok) throw Error(`Couldn't find order #${id}`);
-
-  const { data } = await res.json();
-  return data;
-}
+export const getOrder = async (orderId) => {
+  try {
+    const response = await fetch(`${API_URL}/order/${orderId}`);
+    if (!response.ok) {
+      throw new Error("Order not found");
+    }
+    const order = await response.json();
+    return order;
+  } catch (error) {
+    console.error("Failed to fetch order:", error);
+    throw error;
+  }
+};
 
 export async function createOrder(newOrder) {
   try {

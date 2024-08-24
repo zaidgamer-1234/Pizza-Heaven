@@ -13,14 +13,20 @@ function SearchOrder() {
     if (!query) return;
 
     try {
-      const order = await getOrder(query);
-      console.log(order);
-      if (order) navigate(`/order/${query}`);
+      const { data } = await getOrder(query);
+      console.log(data);
+
+      if (data) {
+        navigate(`/order/${query}`, { state: { data } });
+      } else {
+        console.log("No order found for ID:", query);
+      }
     } catch (error) {
-      console.error(error.message);
+      console.error("Error fetching order:", error.message);
     }
     setQuery("");
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <InputGroup maxW="500px">
@@ -28,6 +34,7 @@ function SearchOrder() {
           <FaPizzaSlice color="#22211f" size="1.5em" />
         </InputLeftElement>
         <Input
+          w={400}
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}

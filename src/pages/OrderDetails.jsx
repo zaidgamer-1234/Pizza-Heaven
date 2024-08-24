@@ -4,136 +4,197 @@ import {
   VStack,
   Heading,
   Divider,
-  Icon,
   Tag,
   TagLabel,
   TagLeftIcon,
   HStack,
 } from "@chakra-ui/react";
-import { FaMapMarkerAlt, FaPhoneAlt, FaClock } from "react-icons/fa";
+import { FaClock } from "react-icons/fa";
 import { NavLink, useLocation, useParams } from "react-router-dom";
-import { formatCurrency, formatDate, calcMinutesLeft } from "../Helper/helpers";
+import { formatCurrency, calcMinutesLeft } from "../Helper/helpers";
 
 function OrderDetails() {
   const { id } = useParams();
   const location = useLocation();
-  const order = location.state?.order;
-  console.log(order);
+  const data = location.state?.data;
 
-  if (!order) {
-    return <Text>Order not found.</Text>;
+  if (!data) {
+    return (
+      <Box mt={20} textAlign="center">
+        <Text fontSize="2xl" color="red.600" fontWeight="bold">
+          Order not found. Please check the order ID.
+        </Text>
+        <Box
+          as={NavLink}
+          to="/home"
+          display="inline-flex"
+          alignItems="center"
+          justifyContent="center"
+          color="white"
+          bg="red.500"
+          fontWeight="bold"
+          fontSize="lg"
+          textDecoration="none"
+          _hover={{
+            bg: "red.700",
+            textDecoration: "underline",
+          }}
+          _activeLink={{
+            bg: "red.900",
+            textDecoration: "underline",
+          }}
+          px={4}
+          py={3}
+          borderRadius="full"
+          _focus={{
+            boxShadow: "outline",
+          }}
+          mt={8}
+        >
+          &larr; Go to Home
+        </Box>
+      </Box>
+    );
   }
 
-  const { estimatedDelivery, customer, phone, address, createdAt, orderPrice } =
-    order;
+  const {
+    estimatedDelivery,
+    customer,
+    orderPrice,
+    status,
+    priority,
+    priorityPrice,
+  } = data;
 
-  const estimatedDeliveryforOrder = calcMinutesLeft(estimatedDelivery);
+  const estimatedDeliveryForOrder = calcMinutesLeft(estimatedDelivery);
 
   return (
     <Box
-      bgGradient="linear(to-br, #f7e7ce, #e4c3a0)"
-      p={8}
-      borderRadius="md"
-      maxW="600px"
+      bgGradient="linear(to-br, #ffe6d6, #ffb870)"
+      p={10}
+      borderRadius="lg"
+      maxW="800px"
       mx="auto"
       mt={20}
       mb={3}
-      boxShadow="2xl"
+      boxShadow="xl"
+      transition="box-shadow 0.2s"
+      _hover={{ boxShadow: "2xl" }}
     >
-      <VStack spacing={5} align="start">
-        <Heading as="h2" size="xl" color="#8B4513">
+      <VStack spacing={6} align="start">
+        <Heading as="h2" size="2xl" color="#a04c3d" mb={4}>
           Order Details
         </Heading>
-        <Divider borderColor="#8B4513" />
-        <HStack spacing={3}>
-          <Text fontSize="lg" fontWeight="bold" color="#D2691E">
+        <Divider borderColor="#a04c3d" />
+        <HStack spacing={4}>
+          <Text fontSize="xl" fontWeight="bold" color="#8a3d2f">
             Order ID:
           </Text>
-          <Tag size="lg" variant="solid" bg="#D2691E" color="white">
+          <Tag size="lg" variant="solid" bg="#8a3d2f" color="white">
             {id}
           </Tag>
         </HStack>
-        <HStack spacing={3}>
-          <Text fontSize="lg" fontWeight="bold" color="#D2691E">
+        <HStack spacing={4}>
+          <Text fontSize="xl" fontWeight="bold" color="#8a3d2f">
             Customer:
           </Text>
-          <Text fontSize="lg" color="#8B4513">
+          <Text fontSize="xl" color="#a04c3d">
             {customer}
           </Text>
         </HStack>
-        <HStack spacing={3}>
-          <Icon as={FaPhoneAlt} color="#D2691E" />
-          <Text fontSize="lg" color="#8B4513">
-            {phone}
-          </Text>
-        </HStack>
-        <HStack spacing={3}>
-          <Icon as={FaMapMarkerAlt} color="#D2691E" />
-          <Text fontSize="lg" color="#8B4513">
-            {address}
-          </Text>
-        </HStack>
-        <HStack spacing={3}>
-          <Icon as={FaClock} color="#D2691E" />
-          <Text fontSize="lg" fontWeight="bold" color="#D2691E">
-            Order Date:
-          </Text>
-          <Text fontSize="lg" color="#8B4513">
-            {formatDate(createdAt)}
-          </Text>
-        </HStack>
-        <HStack spacing={3}>
-          <Text fontSize="lg" fontWeight="bold" color="#D2691E">
+
+        <HStack spacing={4}>
+          <Text fontSize="xl" fontWeight="bold" color="#8a3d2f">
             Total Price:
           </Text>
-          <Text fontSize="lg" color="#8B4513">
+          <Text fontSize="xl" color="#a04c3d">
             {formatCurrency(orderPrice)}
           </Text>
         </HStack>
-        <HStack spacing={3}>
-          <Text fontSize="lg" fontWeight="bold" color="#D2691E">
+        <HStack spacing={4}>
+          <Text fontSize="xl" fontWeight="bold" color="#8a3d2f">
             Estimated Delivery:
           </Text>
-          <Text fontSize="lg" color="#8B4513">
-            {estimatedDeliveryforOrder > 0
-              ? `${estimatedDeliveryforOrder} minutes left`
+          <Text fontSize="xl" color="#a04c3d">
+            {estimatedDeliveryForOrder > 0
+              ? `${estimatedDeliveryForOrder} minutes left`
               : "Delivered"}
           </Text>
         </HStack>
-        {estimatedDeliveryforOrder > 0 ? (
-          <Tag size="lg" colorScheme="green" borderRadius="full">
+        {estimatedDeliveryForOrder > 0 ? (
+          <Tag
+            size="lg"
+            colorScheme="green"
+            borderRadius="full"
+            boxShadow="md"
+            px={4}
+            py={2}
+          >
             <TagLeftIcon as={FaClock} />
             <TagLabel>On the way!</TagLabel>
           </Tag>
         ) : (
-          <Tag size="lg" colorScheme="red" borderRadius="full">
+          <Tag
+            size="lg"
+            colorScheme="red"
+            borderRadius="full"
+            boxShadow="md"
+            px={4}
+            py={2}
+          >
             <TagLabel>Delivered</TagLabel>
           </Tag>
         )}
+        <HStack spacing={4}>
+          <Text fontSize="xl" fontWeight="bold" color="#8a3d2f">
+            Status:
+          </Text>
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            color={status === "preparing" ? "orange.500" : "green.500"}
+          >
+            {status}
+          </Text>
+        </HStack>
+        <HStack spacing={4}>
+          <Text fontSize="xl" fontWeight="bold" color="#8a3d2f">
+            Priority:
+          </Text>
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            color={priority ? "green.500" : "gray.600"}
+          >
+            {priority ? `Yes (+${formatCurrency(priorityPrice)})` : "No"}
+          </Text>
+        </HStack>
       </VStack>
+
       <Box
         as={NavLink}
         to="/home"
         display="inline-flex"
         alignItems="center"
-        color="brown"
+        justifyContent="center"
+        color="white"
+        bg="#8a3d2f"
         fontWeight="bold"
         fontSize="lg"
         textDecoration="none"
         _hover={{
-          color: "orange.600",
-          textDecoration: "underline",
+          bg: "#a04c3d",
         }}
         _activeLink={{
-          color: "orange.800",
-          textDecoration: "underline",
+          bg: "#a64d3e",
         }}
-        px={3}
-        py={2}
-        borderRadius="md"
+        px={4}
+        py={3}
+        borderRadius="full"
         _focus={{
           boxShadow: "outline",
         }}
+        mt={8}
       >
         &larr; Home
       </Box>

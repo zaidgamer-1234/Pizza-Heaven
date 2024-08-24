@@ -29,10 +29,10 @@ function CreateOrder() {
 
     try {
       setIsSubmit(true);
-      const newOrder = await createOrder(orderData);
+      const data = await createOrder(orderData);
       setIsSubmit(false);
+      navigate(`/order/${data.id}`, { state: { data } });
       dispatch(clearCart());
-      navigate(`/order/${newOrder.id}`, { state: { order: newOrder } });
     } catch (error) {
       console.error("Failed to create order:", error.message);
     } finally {
